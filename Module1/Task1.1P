@@ -1,0 +1,30 @@
+const int sensorPin = 2;  
+const int ledPin = 10;
+int pinStateCurrent   = LOW; 
+int pinStatePrevious  = LOW; 
+
+void setup() {
+  Serial.begin(9600);     
+  pinMode(sensorPin, INPUT); 
+  pinMode(ledPin, OUTPUT);
+}
+
+void loop() {
+  pinStatePrevious = pinStateCurrent;
+  pinStateCurrent = digitalRead(sensorPin);  
+
+  if (pinStatePrevious == LOW && pinStateCurrent == HIGH) 
+  { 
+    Serial.println("Motion detected!");
+    digitalWrite(ledPin, HIGH);
+  }
+  else if (pinStatePrevious == HIGH && pinStateCurrent == LOW) 
+  { 
+    Serial.println("Motion stopped!");
+    digitalWrite(ledPin, LOW);
+  }
+  else
+  {
+    Serial.println("No motion detected");
+  }
+}
