@@ -7,6 +7,7 @@ void setup() {
   Serial.begin(9600);     
   pinMode(sensorPin, INPUT); 
   pinMode(ledPin, OUTPUT);
+  digitalWrite(ledPin, LOW);
 }
 
 void loop() {
@@ -17,6 +18,8 @@ void loop() {
   { 
     Serial.println("Motion detected!");
     digitalWrite(ledPin, HIGH);
+    delay(4000);
+    digitalWrite(ledPin, LOW);
   }
   else if (pinStatePrevious == HIGH && pinStateCurrent == LOW) 
   { 
