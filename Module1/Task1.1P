@@ -1,33 +1,37 @@
-const int sensorPin = 2;  
-const int ledPin = 10;
-int pinStateCurrent   = LOW; 
-int pinStatePrevious  = LOW; 
+const int sensorPin = 12;  
+const int ledPin = 13;
+int prevState = LOW;
+int newState = LOW;
 
 void setup() {
   Serial.begin(9600);     
   pinMode(sensorPin, INPUT); 
   pinMode(ledPin, OUTPUT);
-  digitalWrite(ledPin, LOW);
 }
 
-void loop() {
-  pinStatePrevious = pinStateCurrent;
-  pinStateCurrent = digitalRead(sensorPin);  
+void loop() 
+{
+  newState = digitalRead(sensorPin);  
 
-  if (pinStatePrevious == LOW && pinStateCurrent == HIGH) 
-  { 
-    Serial.println("Motion detected!");
-    digitalWrite(ledPin, HIGH);
-    delay(4000);
-    digitalWrite(ledPin, LOW);
-  }
-  else if (pinStatePrevious == HIGH && pinStateCurrent == LOW) 
+  if (newState == LOW) 
   { 
     Serial.println("Motion stopped!");
     digitalWrite(ledPin, LOW);
+    delay(2000);
+    if (prevState == HIGH)
+    {
+      prevState = LOW;
+    }
   }
   else
-  {
-    Serial.println("No motion detected");
+  { 
+    Serial.println("Motion detected!");
+    digitalWrite(ledPin, HIGH);
+    delay(2000);
+    if (prevState == LOW)
+    {
+      prevState = HIGH;
+    }
   }
+  delay(500);
 }
